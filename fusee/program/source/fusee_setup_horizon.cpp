@@ -799,28 +799,9 @@ namespace ams::nxboot {
     }
 
     bool ShouldDisableStratosphere(bool force_dev, bool emummc_enabled) {
-        /* If running retail firmware or on an emummc, stratosphere should be enabled */
-        if((fuse::GetHardwareState() == fuse::HardwareState_Production && !force_dev) || emummc_enabled) {
-            return false;
-        }
-
-        IniSectionList sections;
-        if (ParseIniSafe(sections, "sdmc:/atmosphere/config/stratosphere.ini")) {
-            for(const auto &section : sections) {
-                /* We only care about the [stratosphere] section */
-                if (std::strcmp(section.name, "stratosphere")) {
-                    continue;
-                }
-
-                /* Handle individual fields. */
-                for (const auto &entry : section.kv_list) {
-                    if (std::strcmp(entry.key, "disable_stratosphere") == 0) {
-                        return entry.value[0] == '1';
-                    }
-                }
-            }
-        }
-        return true;
+        AMS_UNUSED(force_dev);
+        AMS_UNUSED(emummc_enabled);
+        return false;
     }
 
     void SetupAndStartHorizon() {
